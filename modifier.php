@@ -8,27 +8,68 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<?php 
+
+            // connexion à la basse de donnée //
+            include_once "connexion.php";
+
+            // on récupère le id dans le lien //
+            $id = $_GET['id'];
+            // requête pour afficher les infos d'un employé // 
+            $req = mysqli_query($con , "SELECT * FROM Employe WHERE id = $id");
+            $row = mysqli_fetch_assoc($req);
+
+        // vérifier que le bouton ajouter a bien été cliqué //
+        if(isset($_POST['button'])){
+
+            // extraction des informations envoyé dans des variables par la methode POST //
+            extract($_POST);
+
+            // vérifier que tous les champs ont été remplis // 
+            if(isset($nom) && isset($prenom) && isset($age) && isset($sexe)){
+
+                // requète de modification //
+                $req = mysqli_query($con , "UPDATE employe SET nom - '$nom' , prenom - '$prenom' , age - '$age ', sexe - '$sexe' WHERE id - $id");
+                
+                if($req){ // si la requête a été effectuée avec succès , on fait une redirection //
+                    header("location: index.php");
+
+                }else{ // si non //
+                    $message = "Employé non modifié";
+                }
+            }else{
+
+                // si non //
+                $message = "veuillez remplir tous les champs !";
+            }
+
+        }
+    ?>
     <div class="form">
         <a href="index.php" class="back_btn"><img src="images/flèche.png"> Retour</a>
-        <h2>Ajouter un employé</h2>
+        <h2>Ajouter un employé : <?=$row['nom']?> </h2>
         <p class="erreur_message">
-            Veuillez remplir tous les champs !
+            <?php 
+                if(isset($message)){
+                    echo $message ;
+                }
+            ?>
         </p>
         <form action="" method="POST">
             <label>Nom</label>
-            <input type="text" name="nom">
+            <input type="text" name="nom" value="<?=$row['nom']?>">
         </form>
         <form action="" method="POST">
             <label>Prénom</label>
-            <input type="text" name="prénom">
+            <input type="text" name="prénom" value="<?=$row['prenom']?>">
         </form>
         <form action="" method="POST">
             <label>Age</label>
-            <input type="number" name="age">
+            <input type="number" name="age" value="<?=$row['age']?>">
         </form>
         <form action="" method="POST">
             <label>Sexe</label>
-            <input type="text" name="Sexe">
+            <input type="text" name="Sexe" value="<?=$row['sexe']?>">
             <input type="submit" value="Modifier" name="button">
 
         </form>

@@ -11,6 +11,7 @@
     <div class="container">
         <a href="ajouter.php" class="Btn_add"><img src="images/plus.png">Ajouter</a>
 
+        
         <table>
             <tr id="items">
                 <th>Nom</th>
@@ -20,14 +21,36 @@
                 <th>Modifier</th>
                 <th>Supprimer</th>
             </tr>
-            <tr>
-                <td>Elyamine</td>
-                <td>Djerroud</td>
-                <td>38 ans</td>
-                <td>Masculin</td>
-                <td><a href="modifier.php"><img src="images/icons8-crayon-50.png"></a></td>
-                <td><a href="#"><img src="images/icons8-effacer-50.png"></a></td>
-            </tr>
+            <?php 
+
+                // inclure la page de connexion //
+                include_once "connexion.php";
+
+                // requète pour afficher la liste des employés //  
+                $req = mysqli_query($con , "SELECT * FROM Employe");
+                if(mysqli_num_rows($req) == 0){
+                    
+                    // s'il nexiste pas d'employé dans la base de donnée , alors on affiche ce message : //
+                    echo " il n'y a pas encore d'employé ajouter";
+                }else{
+                    // si non , affichons la liste de tous les employés //
+                    while($row=mysqli_fetch_assoc($req)){
+                        ?>
+                        <tr>
+                            <td><?=$row['nom']?></td>
+                            <td><?=$row['prenom']?></td>
+                            <td><?=$row['age']?></td>
+                            <td><?=$row['sexe']?></td>
+                            <!-- Nous allons mettre l'id de chaque employé dans ce lien -->
+                            <td><a href="modifier.php?id=<?=$row['id']?>"><img src="images/crayon.png"></a></td>
+                            <td><a href="supprimer.php?id=<?=$row['id']?>"><img src="images/supprimer.png"></a></td>
+                        </tr>
+                        <?php
+                    }
+                }
+            ?>
+           
+            
         </table>
 
 

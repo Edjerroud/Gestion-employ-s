@@ -8,11 +8,47 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <?php 
+        // vérifier que le bouton ajouter a bien été cliqué //
+        if(isset($_POST['button'])){
+
+            // extraction des informations envoyé dans des variables par la methode POST //
+            extract($_POST);
+
+            // vérifier que tous les champs ont été remplis // 
+            if(isset($nom) && isset($prenom) && isset($age) && isset($sexe)){
+
+                // connexion à la basse de donnée //
+                include_once "connexion.php";
+
+                // requête d'ajout // 
+                $req = mysqli_query($con , "INSERT INTO Employe VALUES(NULL, '$nom' , '$prenom' , '$age' , '$sexe')");
+                if($req){ // si la requête a été effectuée avec succès , on fait une redirection //
+                    header("Location: index.php");
+
+                }else{ // si non //
+                    $message = "Employé non ajouté";
+                }
+            }else{
+
+                // si non //
+                $message = "veuillez remplir tous les champs !";
+            }
+
+        }
+    ?>
     <div class="form">
         <a href="index.php" class="back_btn"><img src="images/flèche.png"> Retour</a>
         <h2>Ajouter un employé</h2>
         <p class="erreur_message">
-            Veuillez remplir tous les champs !
+
+            <?php 
+            // si la variable message existe , affichons son contenu //
+            if(isset($message)){
+                echo $message;
+            }
+            ?>
+
         </p>
         <form action="" method="POST">
             <label>Nom</label>
@@ -20,7 +56,7 @@
         </form>
         <form action="" method="POST">
             <label>Prénom</label>
-            <input type="text" name="prénom">
+            <input type="text" name="prenom">
         </form>
         <form action="" method="POST">
             <label>Age</label>
