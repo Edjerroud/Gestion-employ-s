@@ -24,12 +24,12 @@
 
             // extraction des informations envoyé dans des variables par la methode POST //
             extract($_POST);
-
+            
             // vérifier que tous les champs ont été remplis // 
             if(isset($nom) && isset($prenom) && isset($age) && isset($sexe)){
-
+                
                 // requète de modification //
-                $req = mysqli_query($con , "UPDATE employe SET nom - '$nom' , prenom - '$prenom' , age - '$age ', sexe - '$sexe' WHERE id - $id");
+                $req = mysqli_query($con , "UPDATE employe SET nom = '$nom' , prenom = '$prenom' , age = '$age', sexe = '$sexe' WHERE id = $id");
                 
                 if($req){ // si la requête a été effectuée avec succès , on fait une redirection //
                     header("location: index.php");
@@ -47,7 +47,7 @@
     ?>
     <div class="form">
         <a href="index.php" class="back_btn"><img src="images/flèche.png"> Retour</a>
-        <h2>Ajouter un employé : <?=$row['nom']?> </h2>
+        <h2>modifier L'employé <?=$row['nom']?> </h2>
         <p class="erreur_message">
             <?php 
                 if(isset($message)){
@@ -58,18 +58,12 @@
         <form action="" method="POST">
             <label>Nom</label>
             <input type="text" name="nom" value="<?=$row['nom']?>">
-        </form>
-        <form action="" method="POST">
             <label>Prénom</label>
-            <input type="text" name="prénom" value="<?=$row['prenom']?>">
-        </form>
-        <form action="" method="POST">
+            <input type="text" name="prenom" value="<?=$row['prenom']?>">
             <label>Age</label>
             <input type="number" name="age" value="<?=$row['age']?>">
-        </form>
-        <form action="" method="POST">
             <label>Sexe</label>
-            <input type="text" name="Sexe" value="<?=$row['sexe']?>">
+            <input type="text" name="sexe" value="<?=$row['sexe']?>">
             <input type="submit" value="Modifier" name="button">
 
         </form>

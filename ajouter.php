@@ -14,17 +14,15 @@
 
             // extraction des informations envoyé dans des variables par la methode POST //
             extract($_POST);
-
             // vérifier que tous les champs ont été remplis // 
             if(isset($nom) && isset($prenom) && isset($age) && isset($sexe)){
 
                 // connexion à la basse de donnée //
                 include_once "connexion.php";
-
                 // requête d'ajout // 
-                $req = mysqli_query($con , "INSERT INTO Employe VALUES(NULL, '$nom' , '$prenom' , '$age' , '$sexe')");
+                $req = mysqli_query($con , "INSERT INTO employe VALUES(NULL, '$nom' , '$prenom' , '$age' , '$sexe')");
                 if($req){ // si la requête a été effectuée avec succès , on fait une redirection //
-                    header("Location: index.php");
+                    header("location: index.php");
 
                 }else{ // si non //
                     $message = "Employé non ajouté";
@@ -53,18 +51,12 @@
         <form action="" method="POST">
             <label>Nom</label>
             <input type="text" name="nom">
-        </form>
-        <form action="" method="POST">
             <label>Prénom</label>
             <input type="text" name="prenom">
-        </form>
-        <form action="" method="POST">
             <label>Age</label>
             <input type="number" name="age">
-        </form>
-        <form action="" method="POST">
             <label>Sexe</label>
-            <input type="text" name="Sexe">
+            <input type="text" name="sexe">
             <input type="submit" value="Ajouter" name="button">
 
         </form>
